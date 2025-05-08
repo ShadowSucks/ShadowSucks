@@ -1,15 +1,19 @@
-// Mobile menu functionality [[1]][[2]]
-document.querySelector('.mobile-menu-toggle').addEventListener('click', () => {
-    const mobileNav = document.querySelector('.mobile-nav');
-    mobileNav.style.display = mobileNav.style.display === 'flex' ? 'none' : 'flex';
-});
-
-// Smooth scrolling for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('data/posts.json')
+        .then(response => response.json())
+        .then(data => {
+            const newsContainer = document.getElementById('newsSection');
+            
+            data.posts.forEach(post => {
+                const postDiv = document.createElement('div');
+                postDiv.className = 'propaganda-post';
+                postDiv.innerHTML = `
+                    <img src="${post.image}" class="post-image">
+                    <h3>${post.title}</h3>
+                    <p class="date">${post.date}</p>
+                    <p>${post.content}</p>
+                `;
+                newsContainer.appendChild(postDiv);
+            });
         });
-    });
 });
